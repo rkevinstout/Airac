@@ -27,6 +27,37 @@ public class CycleTests
         cycle.Ordinal.Should().Be(14);
     }
 
+    [Fact]
+    public void CanParseIdentifier()
+    {
+        string identifier = "2304";
+
+        var cycle = Cycle.FromIdentifier(identifier);
+
+        cycle.Ordinal.Should().Be(4);
+        cycle.EffectiveDate.Year.Should().Be(2023);
+    }
+
+    [Fact]
+    public void InvalidIdentifierShouldThrow()
+    {
+        string identifier = "Garbage";
+
+        Action act = () => Cycle.FromIdentifier(identifier);
+
+        act.Should().Throw<FormatException>();
+    }
+
+    [Fact]
+    public void InvalidOrdinalShouldThrow()
+    {
+        string identifier = "2314";
+
+        Action act = () => Cycle.FromIdentifier(identifier);
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
     [Theory]
     [MemberData(nameof(AirNavData))]
     public void EffectiveDateAndOrdinalsAreCorrect(int ordinal, DateOnly effectiveDate)

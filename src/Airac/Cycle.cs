@@ -53,21 +53,41 @@ public class Cycle
     { }
 
     /// <summary>
-    /// Constructs a cycle for the given identifier
-    /// </summary>
-    /// <param name="identifier">
-    /// representation of the cycle in the format YYoo
-    /// </param>
-    public Cycle(string identifier)
-    {
-        // TODO parse string id
-    }
-    /// <summary>
     /// Constructs a cycle given an offset from the epoch
     /// </summary>
     /// <param name="serial">
     /// the number of cycles since the epoch
     /// </param>
     private Cycle(int serial) => _serial = serial;
+
+    public static Cycle FromIdentifier(string identifier)
+    {
+        //if (!int.TryParse(identifier, out int integer))
+        //{
+        //    throw new ArgumentException($"Unable to parse {nameof(identifier)}", nameof(identifier));
+        //}
+
+        var integer = int.Parse(identifier, System.Globalization.NumberStyles.Integer);
+
+        var ordinal = integer % 100;
+        var year = 2000 + ((integer - ordinal) / 100);
+
+        var endOfYear = new DateOnly(year - 1, 12, 31);
+        var lastCycleOfYear = new Cycle(endOfYear);
+
+        var serial = lastCycleOfYear._serial + ordinal;
+
+        var cycle = new Cycle(serial);
+
+        if (cycle.EffectiveDate.Year != year)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(identifier),
+                $"{year} does not have {ordinal} cycles"
+                );
+        }
+
+        return cycle;
+    }
 }
 
