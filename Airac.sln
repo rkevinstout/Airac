@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7E9C3A23-D636-4E90-A412-D64E485E4FDA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{11614BF7-8D3F-4E9B-9B24-E391FC3C80EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airac", "src\Airac\Airac.csproj", "{86CF4BD5-5B71-4806-9E0D-58CCE568C80E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airac.Tests", "tests\Airac.Tests\Airac.Tests.csproj", "{24D06D52-2766-44C3-B92F-2D01B4B509B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86CF4BD5-5B71-4806-9E0D-58CCE568C80E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86CF4BD5-5B71-4806-9E0D-58CCE568C80E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86CF4BD5-5B71-4806-9E0D-58CCE568C80E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86CF4BD5-5B71-4806-9E0D-58CCE568C80E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D06D52-2766-44C3-B92F-2D01B4B509B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D06D52-2766-44C3-B92F-2D01B4B509B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D06D52-2766-44C3-B92F-2D01B4B509B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D06D52-2766-44C3-B92F-2D01B4B509B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51B6388E-59B7-47D6-8C09-458EE5FEAD1F}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{86CF4BD5-5B71-4806-9E0D-58CCE568C80E} = {11614BF7-8D3F-4E9B-9B24-E391FC3C80EC}
+		{24D06D52-2766-44C3-B92F-2D01B4B509B9} = {7E9C3A23-D636-4E90-A412-D64E485E4FDA}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.scope = text/x-csharp
+		$1.FileWidth = 80
+		$1.TabWidth = 10
+		$1.TabsToSpaces = True
+		$1.IndentWidth = 11
+		$0.CSharpFormattingPolicy = $2
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 80
+		$3.scope = text/plain
+		$3.TabWidth = 8
+		$3.TabsToSpaces = True
+		$3.IndentWidth = 8
+	EndGlobalSection
+EndGlobal
