@@ -8,20 +8,20 @@ public class Cycle
     /// <summary>
     /// The date from which cycles are calculated relative to
     /// </summary>
-    private static DateOnly _epoch => new DateOnly(1901, 1, 10);
+    private static DateOnly Epoch => new(1901, 1, 10);
 
     /// <summary>
     /// The number of cycles since the epoch
     /// </summary>
-    private int _serial;
+    private readonly int _serial;
 
     /// <summary>
     /// The start date of a 28 day AIRAC cycle
     /// </summary>
-    public DateOnly EffectiveDate => _epoch.AddDays(_serial * Duration.Days);
+    public DateOnly EffectiveDate => Epoch.AddDays(_serial * Duration.Days);
 
     /// <summary>
-    /// Represents the position of cycle in the series of cycles
+    /// The position of cycle in the series of cycles
     /// for the given year
     /// </summary>
     public int Ordinal => (EffectiveDate.DayOfYear / Duration.Days) + 1;
@@ -49,7 +49,7 @@ public class Cycle
     /// </summary>
     /// <param name="date"></param>
     public Cycle(DateOnly date)
-        : this((date.DayNumber - _epoch.DayNumber) / Duration.Days)
+        : this((date.DayNumber - Epoch.DayNumber) / Duration.Days)
     { }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class Cycle
     /// </param>
     public Cycle(string identifier)
     {
-
+        // TODO parse string id
     }
     /// <summary>
     /// Constructs a cycle given an offset from the epoch
