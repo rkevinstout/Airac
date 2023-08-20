@@ -36,10 +36,11 @@ public class CycleTests
 
         cycle.Ordinal.Should().Be(4);
         cycle.EffectiveDate.Year.Should().Be(2023);
+        cycle.Identifier.Should().Be(identifier);
     }
 
     [Fact]
-    public void InvalidIdentifierShouldThrow()
+    public void InvalidIdentifierFormatShouldThrow()
     {
         string identifier = "Garbage";
 
@@ -56,6 +57,27 @@ public class CycleTests
         Action act = () => Cycle.FromIdentifier(identifier);
 
         act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void IdenticalCyclesAreEqual()
+    {
+        var date = new DateOnly(2020, 1, 2);
+
+        var cycle1 = new Cycle(date);
+        var cycle2 = new Cycle(date.AddDays(14));
+
+        cycle1.Should().BeEquivalentTo(cycle2);
+    }
+
+    [Fact]
+    public void InvalidCastShouldNotBeEqual()
+    {
+        var date = new DateOnly(2020, 1, 2);
+
+        var cycle = new Cycle(date);
+
+        cycle.Should().NotBeEquivalentTo("foo");
     }
 
     [Theory]

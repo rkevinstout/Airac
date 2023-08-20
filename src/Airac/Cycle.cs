@@ -1,13 +1,31 @@
-using System;
+using System.Globalization;
+
 namespace Airac;
 
+/// <summary>
+/// The AIRAC cycle governs the production schedule of Aeronautical
+/// Information Publications
+/// </summary>
+/// <remarks>
+/// Cycles do not overlap with each begining on a Thursday (UTC) with a
+/// duration of 28 days
+/// </remarks>
+/// <see cref="https://www.icao.int/airnavigation/information-management/Pages/AIRAC.aspx"/>
+/// <seealso cref="https://en.wikipedia.org/wiki/Aeronautical_Information_Publication/>
 public class Cycle
 {
+    /// <summary>
+    /// The duration of each cycle as defined by ICAO
+    /// </summary>
     private static TimeSpan Duration => TimeSpan.FromDays(28);
 
     /// <summary>
-    /// The date from which cycles are calculated relative to
+    /// The arbitrary date from which cycles are calculated relative to
     /// </summary>
+    /// <remarks>
+    /// The AIRAC system was introduced in 1964.  As such, dates prior
+    /// are academic
+    /// </remarks>
     private static DateOnly Epoch => new(1901, 1, 10);
 
     /// <summary>
@@ -27,9 +45,10 @@ public class Cycle
     public int Ordinal => (EffectiveDate.DayOfYear / Duration.Days) + 1;
 
     /// <summary>
-    /// Commonly used representation of the cycle in the format YYoo
+    /// Commonly used human readable representation of the cycle in
+    /// the format YYoo
     /// </summary>
-    public string Identifier => $"{EffectiveDate.Year % 100}{Ordinal:D2}";
+    public string Identifier => $"{EffectiveDate:yy}{Ordinal:D2}";
 
     /// <summary>
     /// Constructs a cycle for the current date (and time UTC)
@@ -60,14 +79,21 @@ public class Cycle
     /// </param>
     private Cycle(int serial) => _serial = serial;
 
+    /// <summary>
+    /// Produces a cycle represented by the given identifier
+    /// </summary>
+    /// <param name="identifier">Four digit identifier in the format YYoo</param>
+    /// <returns>a cycle represented by the given <paramref name="identifier"/></returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the ordinal specified by <paramref name="identifier"/>
+    /// is not valid for the given year
+    /// </exception>
+    /// <exception cref="FormatException">
+    /// Thrown when <paramref name="identifier"/> can not be parsed as an integer
+    /// </exception>
     public static Cycle FromIdentifier(string identifier)
     {
-        //if (!int.TryParse(identifier, out int integer))
-        //{
-        //    throw new ArgumentException($"Unable to parse {nameof(identifier)}", nameof(identifier));
-        //}
-
-        var integer = int.Parse(identifier, System.Globalization.NumberStyles.Integer);
+        var integer = int.Parse(identifier, NumberStyles.Integer);
 
         var ordinal = integer % 100;
         var year = 2000 + ((integer - ordinal) / 100);
@@ -89,5 +115,12 @@ public class Cycle
 
         return cycle;
     }
-}
 
+    public override string ToString() => Identifier;
+
+    public override bool Equals(object? obj) => Equals(obj as Cycle);
+
+    public bool Equals(Cycle? other) => _serial == other?._serial;
+
+    public override int GetHashCode() => _serial;
+}
