@@ -79,8 +79,10 @@ public class CycleTests
 
         var cycle1 = new Cycle(date);
         var cycle2 = new Cycle(date.AddDays(14));
+        
+        var result = cycle1.Equals(cycle2);
 
-        cycle1.Should().BeEquivalentTo(cycle2);
+        result.Should().BeTrue();
     }
 
     [Fact]
@@ -90,8 +92,9 @@ public class CycleTests
 
         var cycle = new Cycle(date);
 
-        cycle.Should().NotBeEquivalentTo("foo");
-    }
+        var result = cycle.Equals("foo");
+
+        result.Should().BeFalse();    }
 
     [Theory]
     [MemberData(nameof(AirNavData))]
