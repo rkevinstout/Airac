@@ -94,7 +94,8 @@ public class CycleTests
 
         var result = cycle.Equals("foo");
 
-        result.Should().BeFalse();    }
+        result.Should().BeFalse();    
+    }
 
     [Theory]
     [MemberData(nameof(AirNavData))]
