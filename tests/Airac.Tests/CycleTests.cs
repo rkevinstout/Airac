@@ -17,14 +17,27 @@ public class CycleTests
         cycle.Identifier.Length.Should().Be(4);
     }
 
-    [Fact]
-    public void SomeYearsHaveFourteenCycles()
+    [Theory]
+    [InlineData(2020, 12, 31)]
+    [InlineData(2043, 12, 31)]
+    public void SomeYearsHaveFourteenCycles(int year, int month, int day)
     {
-        var date = new DateOnly(2020, 12, 31);
+        var date = new DateOnly(year, month, day);
 
         var cycle = new Cycle(date);
 
         cycle.Ordinal.Should().Be(14);
+    }
+
+    [Fact]
+    public void CycleMayBeginOnJan1()
+    {
+        var date = new DateOnly(2043, 1, 1);
+
+        var cycle = new Cycle(date);
+
+        cycle.Ordinal.Should().Be(1);
+        cycle.EffectiveDate.Should().Be(date);
     }
 
     [Fact]
