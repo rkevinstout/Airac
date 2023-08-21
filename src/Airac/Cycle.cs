@@ -42,7 +42,7 @@ public class Cycle
     /// The position of cycle in the series of cycles
     /// for the given year
     /// </summary>
-    public int Ordinal => (EffectiveDate.DayOfYear / Duration.Days) + 1;
+    public int Ordinal => ((EffectiveDate.DayOfYear - 1) / Duration.Days) + 1;
 
     /// <summary>
     /// Commonly used human readable representation of the cycle in

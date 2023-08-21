@@ -96,6 +96,53 @@ public class CycleTests
     /// </summary>
     public static TheoryData<int, DateOnly> AirNavData => new()
         {
+            // 2020 was a rare 14 cycle year
+            {  1, new DateOnly(2020, 1, 2) },
+            {  2, new DateOnly(2020, 1, 30) },
+            {  3, new DateOnly(2020, 2, 27) },
+            {  4, new DateOnly(2020, 3, 26) },
+            {  5, new DateOnly(2020, 4, 23) },
+            {  6, new DateOnly(2020, 5, 21) },
+            {  7, new DateOnly(2020, 6, 18) },
+            {  8, new DateOnly(2020, 7, 16) },
+            {  9, new DateOnly(2020, 8, 13) },
+            { 10, new DateOnly(2020, 9, 10) },
+            { 11, new DateOnly(2020, 10, 8) },
+            { 12, new DateOnly(2020, 11, 5) },
+            { 13, new DateOnly(2020, 12, 3) },
+            { 14, new DateOnly(2020, 12, 31) },
+
+            // 2021 is particularly interesting as it follows
+            // a rare 14 cycle year
+
+            {  1, new DateOnly(2021, 1, 28) },
+            {  2, new DateOnly(2021, 2, 25) },
+            {  3, new DateOnly(2021, 3, 25) },
+            {  4, new DateOnly(2021, 4, 22) },
+            {  5, new DateOnly(2021, 5, 20) },
+            {  6, new DateOnly(2021, 6, 17) },
+            {  7, new DateOnly(2021, 7, 15) },
+            {  8, new DateOnly(2021, 8, 12) },
+            {  9, new DateOnly(2021, 9, 9) },
+            { 10, new DateOnly(2021, 10, 7) },
+            { 11, new DateOnly(2021, 11, 4) },
+            { 12, new DateOnly(2021, 12, 2) },
+            { 13, new DateOnly(2021, 12, 30) },
+
+            {  1, new DateOnly(2022, 1, 27) },
+            {  2, new DateOnly(2022, 2, 24) },
+            {  3, new DateOnly(2022, 3, 24) },
+            {  4, new DateOnly(2022, 4, 21) },
+            {  5, new DateOnly(2022, 5, 19) },
+            {  6, new DateOnly(2022, 6, 16) },
+            {  7, new DateOnly(2022, 7, 14) },
+            {  8, new DateOnly(2022, 8, 11) },
+            {  9, new DateOnly(2022, 9, 8) },
+            { 10, new DateOnly(2022, 10, 6) },
+            { 11, new DateOnly(2022, 11, 3) },
+            { 12, new DateOnly(2022, 12, 1) },
+            { 13, new DateOnly(2022, 12, 29) },
+
             {  1, new DateOnly(2023, 1, 26) },
             {  2, new DateOnly(2023, 2, 23) },
             {  3, new DateOnly(2023, 3, 23) },
@@ -109,6 +156,7 @@ public class CycleTests
             { 11, new DateOnly(2023, 11, 2) },
             { 12, new DateOnly(2023, 11, 30) },
             { 13, new DateOnly(2023, 12, 28) },
+
             {  1, new DateOnly(2024, 1, 25) },
             {  2, new DateOnly(2024, 2, 22) },
             {  3, new DateOnly(2024, 3, 21) },
