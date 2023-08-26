@@ -12,7 +12,7 @@ namespace Airac;
 /// </remarks>
 /// <see cref="https://www.icao.int/airnavigation/information-management/Pages/AIRAC.aspx"/>
 /// <seealso cref="https://en.wikipedia.org/wiki/Aeronautical_Information_Publication/>
-public class Cycle
+public readonly struct Cycle : IComparable<Cycle>, IEquatable<Cycle>
 {
     /// <summary>
     /// The duration of each cycle as defined by ICAO
@@ -125,7 +125,7 @@ public class Cycle
     /// <summary>
     /// Date windowing function biased on the current century
     /// </summary>
-    /// <param name="twoDigitYear">the two low-order digits of a year </param>
+    /// <param name="twoDigitYear">the two low-order digits of a year</param>
     /// <returns>a four digit year</returns>
     /// <seealso cref="https://en.wikipedia.org/wiki/Date_windowing"/>
     private static int ConvertYear(int twoDigitYear)
@@ -136,11 +136,25 @@ public class Cycle
         return year;
     }
 
+    public readonly int CompareTo(Cycle other) => _serial.CompareTo(other._serial);
+
+    public readonly bool Equals(Cycle other) => _serial.Equals(other._serial);
+
+    public override bool Equals(object? obj) => obj is Cycle cycle && Equals(cycle);
+
+    public static bool operator ==(Cycle left, Cycle right) => left.Equals(right);
+
+    public static bool operator !=(Cycle left, Cycle right) => !(left == right);
+
+    public static bool operator <(Cycle left, Cycle right) => left.CompareTo(right) < 0;
+
+    public static bool operator <=(Cycle left, Cycle right) => left.CompareTo(right) <= 0;
+
+    public static bool operator >(Cycle left, Cycle right) => left.CompareTo(right) > 0;
+
+    public static bool operator >=(Cycle left, Cycle right) => left.CompareTo(right) >= 0;
+    
     public override string ToString() => Identifier;
-
-    public override bool Equals(object? obj) => Equals(obj as Cycle);
-
-    public bool Equals(Cycle? other) => _serial == other?._serial;
 
     public override int GetHashCode() => _serial;
 }

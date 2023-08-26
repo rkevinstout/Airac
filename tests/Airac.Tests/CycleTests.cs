@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using FluentAssertions;
 
 namespace Airac.Tests;
@@ -91,12 +90,25 @@ public class CycleTests
     {
         var date = new DateOnly(2020, 1, 2);
 
-        var cycle1 = new Cycle(date);
-        var cycle2 = new Cycle(date.AddDays(14));
+        var left = new Cycle(date);
+        var right = new Cycle(date.AddDays(14));
         
-        var result = cycle1.Equals(cycle2);
+        Assert.True(left.Equals(right));
+        Assert.True(left == right);
+        Assert.False(left != right);
+    }
 
-        result.Should().BeTrue();
+    [Fact]
+    public void DifferentCyclesAreUnequal()
+    {
+        var date = new DateOnly(2020, 1, 2);
+
+        var left = new Cycle(date);
+        var right = new Cycle(date.AddDays(30));
+
+        Assert.False(left.Equals(right));
+        Assert.False(left == right);
+        Assert.True(left != right);
     }
 
     [Fact]
@@ -111,6 +123,50 @@ public class CycleTests
         result.Should().BeFalse();    
     }
 
+    [Fact]
+    public void SubsequentCyclesAreGreater()
+    {
+        var date = new DateOnly(2020, 1, 2);
+
+        var first = new Cycle(date);
+        var second = new Cycle(date.AddDays(30));
+
+        second.Should().BeGreaterThan(first);
+        first.Should().BeLessThan(second);
+    }
+
+    [Fact]
+    public void CyclesShouldBeSortable()
+    {
+        var cycles = GetCycles().Order();
+
+        cycles.Should().BeInAscendingOrder(x => x.EffectiveDate);
+    }
+
+    [Fact]
+    public void OperatorTests()
+    {
+        var cycles = GetCycles()
+            .OrderBy(x => x.EffectiveDate)
+            .ToArray();
+
+        Assert.True(cycles.First() <= cycles.Last());
+        Assert.True(cycles.First() < cycles.Last());
+        Assert.True(cycles.Last() >= cycles.First());
+        Assert.True(cycles.Last() > cycles.First());
+        Assert.True(cycles.First() !<= cycles.Last());
+        Assert.True(cycles.First() == cycles.First());
+    }
+
+    private static IEnumerable<Cycle> GetCycles()
+    {
+        yield return new Cycle(new DateOnly(2001, 1, 1));
+        yield return new Cycle(new DateOnly(2010, 10, 10));
+        yield return new Cycle(new DateOnly(2002, 2, 2));
+        yield return new Cycle(new DateOnly(2011, 11, 11));
+        yield return new Cycle(new DateOnly(2004, 4, 4));
+    }
+
     [Theory]
     [MemberData(nameof(AirNavData))]
     public void EffectiveDateAndOrdinalsAreCorrect(int ordinal, DateOnly effectiveDate)
@@ -119,8 +175,6 @@ public class CycleTests
 
         cycle.Ordinal.Should().Be(ordinal);
         cycle.EffectiveDate.Should().Be(effectiveDate);
-
-        var hashCode = cycle.GetHashCode();
     }
 
     /// <summary>
