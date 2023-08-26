@@ -83,6 +83,7 @@ public class Cycle
     /// Produces a cycle represented by the given identifier
     /// </summary>
     /// <param name="identifier">Four digit identifier in the format YYoo</param>
+    /// <param name="yearConverter">Converts 2 digit year to 4 digits</param>
     /// <returns>a cycle represented by the given <paramref name="identifier"/></returns>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when the ordinal specified by <paramref name="identifier"/>
@@ -91,14 +92,17 @@ public class Cycle
     /// <exception cref="FormatException">
     /// Thrown when <paramref name="identifier"/> can not be parsed as an integer
     /// </exception>
-    public static Cycle FromIdentifier(string identifier)
+    public static Cycle FromIdentifier(
+        string identifier, 
+        Func<int, int>? yearConverter = null
+        )
     {
         var integer = int.Parse(identifier, NumberStyles.Integer);
 
         var (yy, ordinal) = Math.DivRem(integer, 100);
 
-        var hundreds = DateTime.UtcNow.Year / 100;
-        var year = hundreds * 100 + yy;
+        yearConverter ??= ConvertYear;
+        var year = yearConverter.Invoke(yy);
 
         var previousYearEnd = new DateOnly(year - 1, 12, 31);
         var lastCycleOfYear = new Cycle(previousYearEnd);
@@ -116,6 +120,20 @@ public class Cycle
         }
 
         return cycle;
+    }
+
+    /// <summary>
+    /// Date windowing function biased on the current century
+    /// </summary>
+    /// <param name="twoDigitYear">the two low-order digits of a year </param>
+    /// <returns>a four digit year</returns>
+    /// <seealso cref="https://en.wikipedia.org/wiki/Date_windowing"/>
+    private static int ConvertYear(int twoDigitYear)
+    {        
+        var hundreds = DateTime.UtcNow.Year / 100;
+        var year = hundreds * 100 + twoDigitYear;
+
+        return year;
     }
 
     public override string ToString() => Identifier;

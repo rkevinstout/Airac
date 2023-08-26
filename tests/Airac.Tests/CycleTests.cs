@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using FluentAssertions;
 
 namespace Airac.Tests;
@@ -70,6 +71,19 @@ public class CycleTests
         Action act = () => Cycle.FromIdentifier(identifier);
 
         act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void CanParseIdentifierWithCustomDateWindow()
+    {
+        string identifier = "6504";
+        static int dateWindow(int yy) { return 1900 + yy; }
+
+        var cycle = Cycle.FromIdentifier(identifier, dateWindow);
+
+        cycle.Ordinal.Should().Be(4);
+        cycle.EffectiveDate.Year.Should().Be(1965);
+        cycle.Identifier.Should().Be(identifier);
     }
 
     [Fact]
