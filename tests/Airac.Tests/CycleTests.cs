@@ -43,12 +43,12 @@ public class CycleTests
     [Fact]
     public void CanParseIdentifier()
     {
-        string identifier = "2304";
+        string identifier = "2104";
 
         var cycle = Cycle.FromIdentifier(identifier);
 
         cycle.Ordinal.Should().Be(4);
-        cycle.EffectiveDate.Year.Should().Be(2023);
+        cycle.EffectiveDate.Year.Should().Be(2021);
         cycle.Identifier.Should().Be(identifier);
     }
 
@@ -105,6 +105,8 @@ public class CycleTests
 
         cycle.Ordinal.Should().Be(ordinal);
         cycle.EffectiveDate.Should().Be(effectiveDate);
+
+        var hashCode = cycle.GetHashCode();
     }
 
     /// <summary>

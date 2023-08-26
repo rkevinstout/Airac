@@ -95,11 +95,13 @@ public class Cycle
     {
         var integer = int.Parse(identifier, NumberStyles.Integer);
 
-        var ordinal = integer % 100;
-        var year = 2000 + ((integer - ordinal) / 100);
+        var (yy, ordinal) = Math.DivRem(integer, 100);
 
-        var endOfYear = new DateOnly(year - 1, 12, 31);
-        var lastCycleOfYear = new Cycle(endOfYear);
+        var hundreds = DateTime.UtcNow.Year / 100;
+        var year = hundreds * 100 + yy;
+
+        var previousYearEnd = new DateOnly(year - 1, 12, 31);
+        var lastCycleOfYear = new Cycle(previousYearEnd);
 
         var serial = lastCycleOfYear._serial + ordinal;
 
